@@ -1,0 +1,26 @@
+#importing essential modules
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.datasets import fetch_california_housing
+from sklearn.preprocessing import StandardScaler
+
+#labeling the features and targets of our dataset
+data = fetch_california_housing()
+X = data['data']
+y = data['target']
+
+# construct pipeline
+scaler = StandardScaler()
+poly_features = PolynomialFeatures(degree=2)
+lin_reg = LinearRegression()
+
+pipe = Pipeline([
+    ('scaler', scaler),
+    ('poly', poly_features),
+    ('regressor', lin_reg)])
+
+#pipelines acts as a estimator
+pipe.fit(X,y)
+y_pred = pipe.predict(X)
+print(y_pred)
+print("R^2, the accuracy is: {}".format(pipe.score(X, y)))
